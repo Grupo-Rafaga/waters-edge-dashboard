@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# audit outputs (screenshots e dados brutos — gerados localmente pelo script)
+/data/lp-analysis/
+/data/lp-raw.json
