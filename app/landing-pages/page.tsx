@@ -571,31 +571,33 @@ function Modal({ lp, onClose }: { lp: LPPage; onClose: () => void }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 flex items-end md:items-center justify-center p-0 md:p-4"
       style={{ background: "rgba(0,0,0,0.8)", backdropFilter: "blur(8px)" }}
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <div
-        className="w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-2xl border"
+        className="w-full max-w-5xl max-h-[95vh] md:max-h-[90vh] overflow-y-auto rounded-t-2xl md:rounded-2xl border-t md:border"
         style={{ background: "#111113", borderColor: "var(--card-border)" }}
       >
         {/* Modal header */}
         <div
-          className="sticky top-0 z-10 flex items-center justify-between px-6 py-4 border-b"
+          className="sticky top-0 z-10 flex items-center justify-between gap-3 px-4 md:px-6 py-3 md:py-4 border-b"
           style={{ background: "#111113", borderColor: "var(--card-border)" }}
         >
-          <div className="flex items-center gap-4">
-            <ScoreRing score={lp.score} grade={lp.grade} size={52} />
-            <div>
-              <h2 className="font-semibold text-base" style={{ color: "var(--foreground)" }}>
+          <div className="flex items-center gap-3 md:gap-4 min-w-0 flex-1">
+            <div className="shrink-0">
+              <ScoreRing score={lp.score} grade={lp.grade} size={44} />
+            </div>
+            <div className="min-w-0 flex-1">
+              <h2 className="font-semibold text-sm md:text-base truncate" style={{ color: "var(--foreground)" }}>
                 {lp.label}
               </h2>
-              <p className="text-xs mt-0.5" style={{ color: "var(--muted)" }}>
+              <p className="text-[11px] md:text-xs mt-0.5 truncate" style={{ color: "var(--muted)" }}>
                 {lp.url}
               </p>
             </div>
             <div
-              className="px-2.5 py-1 rounded-full text-[11px] font-semibold"
+              className="hidden sm:block px-2.5 py-1 rounded-full text-[11px] font-semibold shrink-0"
               style={{ background: p.bg, color: p.color }}
             >
               {p.label}
@@ -603,22 +605,23 @@ function Modal({ lp, onClose }: { lp: LPPage; onClose: () => void }) {
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full flex items-center justify-center text-sm transition-colors"
+            aria-label="Fechar"
+            className="w-9 h-9 rounded-full flex items-center justify-center text-sm transition-colors shrink-0"
             style={{ background: "var(--card-border)", color: "var(--muted)" }}
           >
             ✕
           </button>
         </div>
 
-        <div className="grid grid-cols-5 gap-0">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-0">
           {/* Left: Screenshot */}
-          <div className="col-span-2 border-r" style={{ borderColor: "var(--card-border)" }}>
-            <div className="p-4 border-b flex gap-2" style={{ borderColor: "var(--card-border)" }}>
+          <div className="md:col-span-2 border-b md:border-b-0 md:border-r" style={{ borderColor: "var(--card-border)" }}>
+            <div className="p-3 md:p-4 border-b flex gap-2" style={{ borderColor: "var(--card-border)" }}>
               {(["desktop", "mobile"] as const).map((v) => (
                 <button
                   key={v}
                   onClick={() => setView(v)}
-                  className="px-3 py-1 rounded-lg text-xs font-medium transition-all"
+                  className="px-3 py-1 rounded-lg text-[11px] md:text-xs font-medium transition-all"
                   style={{
                     background: view === v ? "rgba(34,211,238,0.1)" : "transparent",
                     color: view === v ? "var(--accent)" : "var(--muted)",
@@ -629,12 +632,11 @@ function Modal({ lp, onClose }: { lp: LPPage; onClose: () => void }) {
                 </button>
               ))}
             </div>
-            <div className="p-4">
+            <div className="p-3 md:p-4">
               <div
-                className="rounded-xl overflow-hidden border"
+                className="rounded-xl overflow-hidden border max-h-[260px] md:max-h-none"
                 style={{
                   borderColor: "var(--card-border)",
-                  maxHeight: view === "mobile" ? 480 : 420,
                   overflowY: "auto",
                 }}
               >
@@ -648,7 +650,7 @@ function Modal({ lp, onClose }: { lp: LPPage; onClose: () => void }) {
           </div>
 
           {/* Right: Analysis */}
-          <div className="col-span-3">
+          <div className="md:col-span-3">
             {/* Stats row */}
             <div className="grid grid-cols-3 border-b" style={{ borderColor: "var(--card-border)" }}>
               {[
@@ -656,35 +658,35 @@ function Modal({ lp, onClose }: { lp: LPPage; onClose: () => void }) {
                 { label: "Seções", value: lp.sections, color: "var(--foreground)" },
                 { label: "Vídeo", value: lp.hasVideo ? "Sim" : "Não", color: lp.hasVideo ? "#22c55e" : "#ef4444" },
               ].map(({ label, value, color }) => (
-                <div key={label} className="px-5 py-4 border-r last:border-r-0" style={{ borderColor: "var(--card-border)" }}>
-                  <p className="text-xs" style={{ color: "var(--muted)" }}>{label}</p>
-                  <p className="text-xl font-bold mt-0.5" style={{ color }}>{value}</p>
+                <div key={label} className="px-3 md:px-5 py-3 md:py-4 border-r last:border-r-0" style={{ borderColor: "var(--card-border)" }}>
+                  <p className="text-[11px] md:text-xs" style={{ color: "var(--muted)" }}>{label}</p>
+                  <p className="text-lg md:text-xl font-bold mt-0.5" style={{ color }}>{value}</p>
                 </div>
               ))}
             </div>
 
             {lp.adSpend !== undefined && (
               <div
-                className="mx-5 mt-4 px-4 py-3 rounded-xl flex items-center justify-between"
+                className="mx-4 md:mx-5 mt-4 px-4 py-3 rounded-xl flex items-center justify-between gap-3"
                 style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)" }}
               >
-                <div>
-                  <p className="text-xs font-semibold" style={{ color: "#ef4444" }}>
+                <div className="min-w-0">
+                  <p className="text-[11px] md:text-xs font-semibold" style={{ color: "#ef4444" }}>
                     ⚠ Investimento em Risco
                   </p>
-                  <p className="text-xs mt-0.5" style={{ color: "var(--muted)" }}>
-                    ${lp.adSpend.toLocaleString()} investidos em Meta Ads com{" "}
+                  <p className="text-[11px] md:text-xs mt-0.5 leading-snug" style={{ color: "var(--muted)" }}>
+                    ${lp.adSpend.toLocaleString()} em ads com{" "}
                     <strong style={{ color: "#ef4444" }}>{lp.leadsTracked} leads rastreados</strong>
                   </p>
                 </div>
-                <span className="text-2xl font-black" style={{ color: "#ef4444" }}>
+                <span className="text-xl md:text-2xl font-black shrink-0" style={{ color: "#ef4444" }}>
                   ${lp.adSpend.toLocaleString()}
                 </span>
               </div>
             )}
 
             {/* Issue tabs */}
-            <div className="px-5 mt-4 flex gap-2 flex-wrap">
+            <div className="px-4 md:px-5 mt-4 flex gap-2 flex-wrap">
               {(Object.keys(CATEGORY_LABELS) as IssueCategory[]).map((cat) => {
                 const meta = CATEGORY_LABELS[cat];
                 const active = tab === cat;
@@ -693,7 +695,7 @@ function Modal({ lp, onClose }: { lp: LPPage; onClose: () => void }) {
                   <button
                     key={cat}
                     onClick={() => setTab(cat)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
+                    className="flex items-center gap-1.5 px-2.5 md:px-3 py-1.5 rounded-lg text-[11px] md:text-xs font-medium transition-all"
                     style={{
                       background: active ? `${meta.color}18` : "transparent",
                       color: active ? meta.color : "var(--muted)",
@@ -714,15 +716,15 @@ function Modal({ lp, onClose }: { lp: LPPage; onClose: () => void }) {
             </div>
 
             {/* Issues list */}
-            <div className="px-5 mt-3 space-y-2">
+            <div className="px-4 md:px-5 mt-3 space-y-2">
               {lp.issues[tab].map((issue, i) => (
                 <div
                   key={i}
-                  className="flex items-start gap-3 px-4 py-3 rounded-xl"
+                  className="flex items-start gap-3 px-3 md:px-4 py-2.5 md:py-3 rounded-xl"
                   style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)" }}
                 >
                   <span className="mt-0.5 shrink-0 text-xs" style={{ color: "#ef4444" }}>✕</span>
-                  <p className="text-sm leading-relaxed" style={{ color: "var(--foreground)", opacity: 0.85 }}>
+                  <p className="text-[13px] md:text-sm leading-relaxed" style={{ color: "var(--foreground)", opacity: 0.85 }}>
                     {issue}
                   </p>
                 </div>
@@ -730,19 +732,19 @@ function Modal({ lp, onClose }: { lp: LPPage; onClose: () => void }) {
             </div>
 
             {/* Wins */}
-            <div className="px-5 mt-5">
-              <p className="text-xs font-semibold mb-2" style={{ color: "var(--muted)" }}>
+            <div className="px-4 md:px-5 mt-5">
+              <p className="text-[11px] md:text-xs font-semibold mb-2" style={{ color: "var(--muted)" }}>
                 O QUE FUNCIONA
               </p>
               <div className="space-y-2">
                 {lp.wins.map((win, i) => (
                   <div
                     key={i}
-                    className="flex items-start gap-3 px-4 py-3 rounded-xl"
+                    className="flex items-start gap-3 px-3 md:px-4 py-2.5 md:py-3 rounded-xl"
                     style={{ background: "rgba(34,197,94,0.05)", border: "1px solid rgba(34,197,94,0.15)" }}
                   >
                     <span className="mt-0.5 shrink-0 text-xs" style={{ color: "#22c55e" }}>✓</span>
-                    <p className="text-sm leading-relaxed" style={{ color: "var(--foreground)", opacity: 0.85 }}>
+                    <p className="text-[13px] md:text-sm leading-relaxed" style={{ color: "var(--foreground)", opacity: 0.85 }}>
                       {win}
                     </p>
                   </div>
@@ -751,21 +753,21 @@ function Modal({ lp, onClose }: { lp: LPPage; onClose: () => void }) {
             </div>
 
             {/* Quick fixes */}
-            <div className="px-5 mt-5 mb-6">
-              <p className="text-xs font-semibold mb-2" style={{ color: "var(--muted)" }}>
+            <div className="px-4 md:px-5 mt-5 mb-6">
+              <p className="text-[11px] md:text-xs font-semibold mb-2" style={{ color: "var(--muted)" }}>
                 CORREÇÕES RÁPIDAS
               </p>
               <div className="space-y-2">
                 {lp.quickFixes.map((fix, i) => (
                   <div
                     key={i}
-                    className="flex items-start gap-3 px-4 py-3 rounded-xl"
+                    className="flex items-start gap-3 px-3 md:px-4 py-2.5 md:py-3 rounded-xl"
                     style={{ background: "rgba(34,211,238,0.04)", border: "1px solid rgba(34,211,238,0.12)" }}
                   >
                     <span className="mt-0.5 shrink-0 text-xs font-bold" style={{ color: "var(--accent)" }}>
                       {i + 1}
                     </span>
-                    <p className="text-sm leading-relaxed" style={{ color: "var(--foreground)", opacity: 0.85 }}>
+                    <p className="text-[13px] md:text-sm leading-relaxed" style={{ color: "var(--foreground)", opacity: 0.85 }}>
                       {fix}
                     </p>
                   </div>
@@ -861,65 +863,65 @@ export default function LandingPagesPage() {
   );
 
   return (
-    <div className="min-h-screen p-8" style={{ background: "var(--background)" }}>
+    <div className="min-h-screen p-4 md:p-8" style={{ background: "var(--background)" }}>
       {/* Page header */}
-      <div className="mb-8 fade-up">
-        <div className="flex items-center gap-2 mb-3">
-          <span className="text-xs font-semibold px-2.5 py-1 rounded-full" style={{ background: "rgba(34,211,238,0.1)", color: "var(--accent)", border: "1px solid rgba(34,211,238,0.2)" }}>
+      <div className="mb-6 md:mb-8 fade-up">
+        <div className="flex items-center gap-2 mb-3 flex-wrap">
+          <span className="text-[11px] md:text-xs font-semibold px-2.5 py-1 rounded-full" style={{ background: "rgba(34,211,238,0.1)", color: "var(--accent)", border: "1px solid rgba(34,211,238,0.2)" }}>
             Auditoria CRO v2
           </span>
-          <span className="text-xs" style={{ color: "var(--muted)" }}>2026-04-22</span>
+          <span className="text-[11px] md:text-xs" style={{ color: "var(--muted)" }}>2026-04-22</span>
         </div>
-        <h1 className="text-3xl font-bold tracking-tight" style={{ color: "var(--foreground)" }}>
+        <h1 className="text-2xl md:text-3xl font-bold tracking-tight" style={{ color: "var(--foreground)" }}>
           Landing Pages
         </h1>
-        <p className="mt-2 text-sm" style={{ color: "var(--muted)" }}>
+        <p className="mt-2 text-xs md:text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
           8 páginas extraídas com Playwright · critérios baseados em medição direta do DOM (H1/H2, fontes, CTAs, forms, urgência, padding, trust keywords)
         </p>
       </div>
 
       {/* Summary stats */}
-      <div className="grid grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
         {[
           { label: "Score Médio", value: `${avgScore}/100`, sub: "média das 8 páginas", color: "#f97316", bg: "rgba(249,115,22,0.08)", border: "rgba(249,115,22,0.2)" },
           { label: "Páginas Críticas", value: `${fCount}`, sub: "nota F — ação imediata", color: "#ef4444", bg: "rgba(239,68,68,0.08)", border: "rgba(239,68,68,0.2)" },
           { label: "Problemas", value: `${totalIssues}`, sub: "em design, copy e CRO", color: "#a78bfa", bg: "rgba(167,139,250,0.08)", border: "rgba(167,139,250,0.2)" },
-          { label: "Investimento em Risco", value: "$14K", sub: "SoftWave — 0 leads rastreados", color: "#ef4444", bg: "rgba(239,68,68,0.08)", border: "rgba(239,68,68,0.2)" },
+          { label: "Risco em Ads", value: "$14K", sub: "SoftWave — 0 leads", color: "#ef4444", bg: "rgba(239,68,68,0.08)", border: "rgba(239,68,68,0.2)" },
         ].map(({ label, value, sub, color, bg, border }, i) => (
           <div
             key={i}
-            className="rounded-2xl px-5 py-4 fade-up"
+            className="rounded-2xl px-4 md:px-5 py-3 md:py-4 fade-up"
             style={{ background: bg, border: `1px solid ${border}`, animationDelay: `${i * 0.07}s` }}
           >
-            <p className="text-xs font-medium" style={{ color: "var(--muted)" }}>{label}</p>
-            <p className="text-3xl font-black mt-1 tracking-tight" style={{ color }}>{value}</p>
-            <p className="text-xs mt-1" style={{ color: "var(--muted)" }}>{sub}</p>
+            <p className="text-[11px] md:text-xs font-medium" style={{ color: "var(--muted)" }}>{label}</p>
+            <p className="text-2xl md:text-3xl font-black mt-1 tracking-tight" style={{ color }}>{value}</p>
+            <p className="text-[11px] md:text-xs mt-1 leading-snug" style={{ color: "var(--muted)" }}>{sub}</p>
           </div>
         ))}
       </div>
 
       {/* Score bar */}
       <div
-        className="rounded-2xl border p-5 mb-8 fade-up"
+        className="rounded-2xl border p-4 md:p-5 mb-6 md:mb-8 fade-up"
         style={{ background: "var(--card-bg)", borderColor: "var(--card-border)", animationDelay: "0.2s" }}
       >
-        <p className="text-xs font-semibold mb-4" style={{ color: "var(--muted)" }}>
+        <p className="text-[11px] md:text-xs font-semibold mb-3 md:mb-4" style={{ color: "var(--muted)" }}>
           RANKING POR SCORE
         </p>
         <div className="space-y-3">
           {[...LP_DATA].sort((a, b) => b.score - a.score).map((lp) => (
             <div
               key={lp.slug}
-              className="flex items-center gap-3 cursor-pointer group"
+              className="flex items-center gap-2 md:gap-3 cursor-pointer group"
               onClick={() => setSelected(lp)}
             >
               <span
-                className="w-32 text-xs font-medium truncate transition-colors group-hover:text-white"
+                className="w-24 md:w-32 text-[11px] md:text-xs font-medium truncate transition-colors group-hover:text-white shrink-0"
                 style={{ color: "var(--muted)" }}
               >
                 {lp.label}
               </span>
-              <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ background: "var(--card-border)" }}>
+              <div className="flex-1 h-2 rounded-full overflow-hidden min-w-0" style={{ background: "var(--card-border)" }}>
                 <div
                   className="h-full rounded-full transition-all duration-1000"
                   style={{
@@ -928,10 +930,10 @@ export default function LandingPagesPage() {
                   }}
                 />
               </div>
-              <span className="w-10 text-right text-xs font-bold" style={{ color: gradeColor(lp.grade) }}>
+              <span className="w-8 md:w-10 text-right text-[11px] md:text-xs font-bold shrink-0" style={{ color: gradeColor(lp.grade) }}>
                 {lp.score}
               </span>
-              <span className="w-4 text-xs font-bold" style={{ color: gradeColor(lp.grade) }}>
+              <span className="w-3 md:w-4 text-[11px] md:text-xs font-bold shrink-0" style={{ color: gradeColor(lp.grade) }}>
                 {lp.grade}
               </span>
             </div>
@@ -940,12 +942,12 @@ export default function LandingPagesPage() {
       </div>
 
       {/* Filter */}
-      <div className="flex items-center gap-2 mb-5">
+      <div className="flex items-center gap-2 mb-4 md:mb-5 flex-wrap">
         {(["ALL", "P0", "P1", "P2"] as const).map((f) => (
           <button
             key={f}
             onClick={() => setFilter(f)}
-            className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
+            className="px-3 py-1.5 rounded-lg text-[11px] md:text-xs font-medium transition-all"
             style={{
               background: filter === f ? "rgba(34,211,238,0.1)" : "transparent",
               color: filter === f ? "var(--accent)" : "var(--muted)",
@@ -958,7 +960,7 @@ export default function LandingPagesPage() {
       </div>
 
       {/* Cards grid */}
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 mb-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-4 mb-10 md:mb-12">
         {filtered.map((lp) => (
           <LPCard key={lp.slug} lp={lp} onOpen={() => setSelected(lp)} />
         ))}
